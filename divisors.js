@@ -34,11 +34,15 @@ function buildGraph() {
     // Create the renderer
     var render = new dagreD3.render();
 
-    g.setNode(0, {label: 0})
+    g.setNode(0, {label: 0, shape: "circle", style: "fill: #ff0000"})
 
     function addNode(node, instantRender){
-        g.setNode(node, {label: node});
-        g.setEdge(node,diffs[node], {label:""});
+        var isPrime = -1 != primes.indexOf(node)
+        var filling = "fill: #888888"
+        if (isPrime)
+            filling = "fill: #ff8888"
+        g.setNode(node, {label: node, style: filling, shape: "circle"});
+        g.setEdge(node,diffs[node], {label:"", curve: d3.curveBasis});
 
         // Render the graph into svg g
         if (instantRender){
