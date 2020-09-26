@@ -52,8 +52,8 @@ function buildGraph() {
 
     for (var e=1;e < max;e++) {
         const x = e;
-        // setTimeout(function(){addNode(x, true)},  e*200)
-        addNode(x, false)
+        setTimeout(function(){addNode(x, true)},  e*200)
+        // addNode(x, false)
         
     }
     g.graph().transition = function(selection) {
