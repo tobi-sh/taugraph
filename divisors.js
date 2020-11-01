@@ -1,7 +1,9 @@
-const max = 100
+const max = 20
 primes=[]
 divisors = {1:[1]}
 diffs = {1:0}
+nodes = {0:[1]}
+
 function getPrimeDivisors(n) {
     return primes.filter(p => n%p == 0)
 }
@@ -18,11 +20,35 @@ function calcDivisorDiffs(max) {
         divs = divs.concat([1,i])
         divs = Array.from(new Set(divs))
         divisors[i] = divs
-        diffs[i] = i- divs.length  
+        diff = i - divs.length
+        diffs[i] = diff
+        nextnodes = nodes[diff] == undefined ? [] : nodes[diff]  
+        nextnodes.push(i)
+        nodes[diff] = nextnodes
     }
 }
 
 
+
+paths = []
+function calcPaths(n,disco, path) {
+    disco.add(n)
+    if (nodes[n] != undefined){
+        for (x of nodes[n]) {
+            if (!disco.has(x)) {
+                calcPaths(x, disco, path.push(x))        
+            }
+        }
+    }
+    else {
+        paths.push(path)
+    }
+    
+}
+
+function intersect(a1, a2) {
+    return a1.filter(x => a2.includes(x))
+}
 
 function buildGraph() {
     // Create a new directed graph
@@ -85,4 +111,5 @@ function buildGraph() {
 }
   
 calcDivisorDiffs(max)
+calcPaths(0, new Set([]), [0]) 
 buildGraph()
